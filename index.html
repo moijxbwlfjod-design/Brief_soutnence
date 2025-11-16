@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="./app/main.js" defer></script>
+    <link href="./style/style.css" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body>
+    <main id="main" class="flex gap-[4rem] items-center">
+        <div id="left_bar" class="left_bar bg-blue-500 w-[15rem] h-[100vh] relative flex flex-col items-center">
+            <div id="non_used_staffs" class="bg-gray-200 overflow-y-auto py-[5px] rounded-[8px] w-[90%] h-[30rem] mt-[20px] flex flex-col gap-[5px] items-center">
+            </div>
+            <button id="add_staff_btn" class="bg-[white] p-[1rem] rounded-[8px] absolute bottom-[0] mb-[2rem]">Ajouter un staff</button>
+        </div>
+        <div id="entreprise" class="entreprise bg-red-500 w-[60rem] h-[90vh]">
+            <div id="Salle de conférence"></div>
+            <div id="Réception"></div>
+            <div id="Salle des serveurs"></div>
+            <div id="Salle de sécurité"></div>
+            <div id="Salle du personnel"></div>
+            <div id="Salle d’archives"></div>
+        </div>
+    </main>
+</body>
+</html>

@@ -1,0 +1,10 @@
+#entreprise{
+    display: grid;
+    /* grid-template-areas: 
+    ""; */
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.add_staff{
+    background-color: rgba(0, 0, 0, 0.3);
+}
