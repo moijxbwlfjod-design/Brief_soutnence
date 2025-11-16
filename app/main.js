@@ -25,7 +25,6 @@ document.addEventListener("DOMContentLoaded", ()=>{
     function add_staff(){
         add_staff_btn.addEventListener("click", (e)=>{
            e.preventDefault();
-           console.log("btn pressed!!")
            main.insertAdjacentHTML('beforeend', `
                 <div id="add_staff" class="add_staff fixed top-[0] left-[0] w-[100%] h-[100vh]">
                 <div id="popup" class="popup w-[25rem] h-[100vh] bg-[white] rounded-[20px] fixed top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 py-[1rem] px-[0.6rem] flex flex-col gap-[10px] overflow-y-auto">
@@ -74,10 +73,30 @@ document.addEventListener("DOMContentLoaded", ()=>{
                     </div>
 
                     <div id="staff_experience" class="staff_experience flex flex-col">
-                        <div class="staff_experience_one flex flex-col">
-                            <label for="staff_experience">Staff Experience:</label>
-                            <input type="text" id="staff_experience" placeholder="I have Youcode Certificat" class="border border-gray-300 focus:outline-none focus:border-blue-500 rounded-[8px]">
-                            <span id="staff_experience_error"></span>
+                        <div class="staff_experience_one flex flex-col bg-gray-100 py-[10px] px-[5px] rounded-[8px]">
+                            <div class="experience_company flex flex-col">
+                                <label for="experience_company">Company:</label>
+                                <input type="text" id="experience_company" class="bg-[white] ml-[8px] border border-gray-300 focus:outline-none focus:border-blue-500 rounded-[8px]">
+                                <span></span>
+                            </div>
+
+                            <div class="experience_role flex flex-col">
+                                <label for="experience_role">Role:</label>
+                                <input type="text" id="experience_role" class="bg-[white] ml-[8px] border border-gray-300 focus:outline-none focus:border-blue-500 rounded-[8px]">
+                                <span></span>
+                            </div>
+
+                            <div class="experience_start flex flex-col">
+                                <label for="experience_start">Started at:</label>
+                                <input type="date" id="experience_start" class="bg-[white] ml-[8px] border border-gray-300 focus:outline-none focus:border-blue-500 rounded-[8px]">
+                                <span></span>
+                            </div>
+
+                            <div class="experience_end flex flex-col">
+                                <label for="experience_end">Finished at:</label>
+                                <input type="date" id="experience_end" class="bg-[white] ml-[8px] border border-gray-300 focus:outline-none focus:border-blue-500 rounded-[8px]">
+                                <span></span>
+                            </div>
                         </div>
                         <div id="staff_experience_add" class="staff_experience_add flex flex-col gap-[5px] mt-[5px]">
 
@@ -107,7 +126,6 @@ document.addEventListener("DOMContentLoaded", ()=>{
     
             add_img.addEventListener("click", (e)=>{
                 e.preventDefault()
-                console.log("clicked")
                 img_url.disabled = true;
                 img_url.classList.add("disabled:cursor-not-allowed");
                 hiddenInput.click();
@@ -129,12 +147,14 @@ document.addEventListener("DOMContentLoaded", ()=>{
                 e.preventDefault()
                 if(img_url.value.length > 0){
                     add_img.disabled = true;
+                    hiddenInput.disabled = true;
                     add_img.classList.remove("bg-[#007BFF]")
                     add_img.classList.add("bg-[#CED4DA]");
                     add_img.classList.add("disabled:text-[#6C757D]");
                     add_img.classList.add("disabled:cursor-not-allowed");
                 } else {
                     add_img.disabled = false;
+                    hiddenInput.disabled = false;
                     add_img.classList.remove("bg-[#CED4DA]");
                     add_img.classList.add("bg-[#007BFF]")
                 }
@@ -143,36 +163,58 @@ document.addEventListener("DOMContentLoaded", ()=>{
 
            add_experience_btn.addEventListener("click", (e)=>{
             e.preventDefault();
-            const experience_input = document.querySelector("input[id='staff_experience']");
-            console.log(experience_input.value)
+            // const experience_inputs = document.querySelectorAll("#staff");
+            // console.log(experience_input.value)
             const experience_span = document.getElementById("staff_experience_error");
             const added_experiece_container = document.getElementById("staff_experience_add")
-            if(!experience_input.value.length > 0){
-                experience_input.style.border = "1px solid red";
-                experience_span.textContent = "Please use this input first"
-                experience_span.style.color = "red";
-            } else {
-                experience_span.textContent = "";
-                experience_input.style.border = "0px"
-                remove_experience_btn.style.display = "";
+            // if(!experience_input.value.length > 0){
+            //     experience_input.style.border = "1px solid red";
+            //     experience_span.textContent = "Please use this input first"
+            //     experience_span.style.color = "red";
+            // } else {
+            //     experience_span.textContent = "";
+            //     experience_input.style.border = "0px"
+            //     remove_experience_btn.style.display = "";
                 added_experiece_container.insertAdjacentHTML('beforeend', `
-                        <div class="staff_experience flex flex-col">
-                            <input type="text" id="staff_experience" class="border border-gray-300 focus:outline-none focus:border-blue-500 rounded-[8px]">
-                            <span id="staff_experience_error"></span>
+                        <div class="staff_experience_block flex flex-col bg-gray-100 py-[10px] px-[5px] rounded-[8px]">
+                            <div class="experience_company flex flex-col">
+                                <label for="experience_company">Company:</label>
+                                <input type="text" id="experience_company" class="bg-[white] ml-[8px] border border-gray-300 focus:outline-none focus:border-blue-500 rounded-[8px]">
+                                <span id="experience_company_error"></span>
+                            </div>
+
+                            <div class="experience_role flex flex-col">
+                                <label for="experience_role">Role:</label>
+                                <input type="text" id="experience_role" class="bg-[white] ml-[8px] border border-gray-300 focus:outline-none focus:border-blue-500 rounded-[8px]">
+                                <span id="experience_role_error"></span>
+                            </div>
+
+                            <div class="experience_start flex flex-col">
+                                <label for="experience_start">Started at:</label>
+                                <input type="date" id="experience_start" class="bg-[white] ml-[8px] border border-gray-300 focus:outline-none focus:border-blue-500 rounded-[8px]">
+                                <span id="experience_start_error"></span>
+                            </div>
+
+                            <div class="experience_end flex flex-col">
+                                <label for="experience_end">Finished at:</label>
+                                <input type="date" id="experience_end" class="bg-[white] ml-[8px] border border-gray-300 focus:outline-none focus:border-blue-500 rounded-[8px]">
+                                <span id="experience_end_error"></span>
+                            </div>
                         </div>
                     `);
+                    remove_experience_btn.style.display = ""
             }
-           });
+           );
 
 
            remove_experience_btn.addEventListener("click", (e)=>{
             e.preventDefault();
-            if(document.getElementById("staff_experience_add").getElementsByTagName('input')){
-                let inputs = document.getElementById("staff_experience_add").getElementsByTagName('input');
-                let last_input_index = inputs.length - 1;
-                inputs[last_input_index].parentNode.remove();
+            let inputs = document.getElementsByClassName("staff_experience_block");
+            let last_input_index = inputs.length - 1;
+            if (last_input_index >= 0) {
+                inputs[last_input_index].remove();
             }
-            if(document.getElementById("staff_experience_add").getElementsByTagName('input').length == 0){
+            if(document.getElementsByClassName("staff_experience_block").length == 0){
                 remove_experience_btn.style.display = "none";
             }
            });
@@ -183,8 +225,28 @@ document.addEventListener("DOMContentLoaded", ()=>{
                 if(result == 0){
                     let staffName = document.querySelector("#staff_name input").value;
                     let staffRole = document.querySelector("#staff_role select").value;
-                    console.log(staffName)
-                    console.log(staffRole)
+                    let key_name = document.querySelector("#staff_name input").value;
+                    let final_input = Array.from(document.querySelectorAll("#popup input, #staff_role"));
+                    let filtred_inputs = [];
+                    for (let i = 0; i < final_input.length; i++){
+                        if(final_input[i].disabled == false){
+                            filtred_inputs.push(final_input[i]);
+                        };
+                    }
+                    userData[key_name] = {};
+                    filtred_inputs.forEach(input => {
+                        if(!input.getAttribute("id").includes("experience")){
+                            userData[key_name][input.getAttribute("id")] = input.value;
+                        } else {
+                            if (input.getAttribute("id") in userData[key_name]){
+                                userData[key_name][input.getAttribute("id")].push(input.value);
+                            } else {
+                                userData[key_name][input.getAttribute("id")] = [];
+                                userData[key_name][input.getAttribute("id")].push(input.value);
+                            }
+                        }
+                    })
+                    console.log(userData)
                     document.getElementById("add_staff").remove();
                     document.getElementById("non_used_staffs").insertAdjacentHTML('beforeend', `
                         <div class="non_used_card w-[90%] h-[auto] bg-[white] px-[2px] rounded-[8px]">
@@ -215,7 +277,6 @@ document.addEventListener("DOMContentLoaded", ()=>{
         formInputs.filter(item => {
             return !item.classList.contains("hidden");
         })
-        console.log(formInputs);
             formInputs.forEach(input => {
                 
                 if(input.getAttribute("id") in pattern){
@@ -229,7 +290,21 @@ document.addEventListener("DOMContentLoaded", ()=>{
                     span.style.color = "red";
                     num++;
                 }
-            }})
+            } else{
+                if(input.getAttribute("id") != "hidden" && input.getAttribute("id") != "staff_photo_input"){
+                    let spantwo = input.nextElementSibling;
+                    if(input.value.length == 0){
+                        input.style.border = "1px solid red";
+                        spantwo.textContent = "Give valide data";
+                        spantwo.style.color = "red";
+                        num++;
+                    } else{
+                        spantwo.textContent = "";
+                        input.style.border = "";
+                    }
+                }
+            }
+        })
             return num;
     }
 
