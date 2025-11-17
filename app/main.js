@@ -399,10 +399,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
                 const profileImg = document.getElementById("profileImg");
                 const hiddenInput = document.getElementById("hidden");
                 const Inputs = document.querySelectorAll("#edit_staff_div input, #edit_staff_div select");
-                const curent_user_data = userData[id];
-                console.log(`this : ${curent_user_data} and the id is : ${id}`);
-                console.log(userData)
-                Object.entries(curent_user_data).forEach(([key,value]) => {
+                Object.entries(userData[id]).forEach(([key,value]) => {
                     if(!key.includes("experience")){
                         Inputs.forEach(item => {
                             if(item.getAttribute("id") == key && value.length != 0){
@@ -441,8 +438,6 @@ document.addEventListener("DOMContentLoaded", ()=>{
                                     `);
                             };
                             let Experience_Company = document.querySelectorAll("#experience_company");
-                            console.log(Experience_Company)
-                            console.log(`its length is ${Experience_Company.length}`)
                             Experience_Company.forEach((itm, index) => {
                                 itm.value = value[index];
                             })
@@ -495,7 +490,6 @@ document.addEventListener("DOMContentLoaded", ()=>{
                     if(result == 0){
                         let staffName = document.querySelector("#staff_name input").value;
                         let staffRole = document.querySelector("#staff_role select").value;
-                        let key_name = id++;
                         let final_input = Array.from(document.querySelectorAll("#popup input, select"));
                         let company = [];
                         let role = [];
@@ -508,9 +502,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
                             };
                         };
                         filtred_inputs.forEach(input => {
-                            
                             if(!input.getAttribute("id").includes("experience")){
-                                userData[id][input.getAttribute("id")] = input.value;
                             } else {
                                 if(input.getAttribute("id").includes("company")){
                                     company.push(input.value);
@@ -527,9 +519,6 @@ document.addEventListener("DOMContentLoaded", ()=>{
                         userData[id]["experience_start"] = start;
                         userData[id]["experience_role"] = role;
                         userData[id]["experience_company"] = company;
-                        userData[key_name] = userData[id];
-                        delete userData[id];
-                        console.log(userData)
                         document.getElementById("edit_staff_div").remove();
                         edit_btn.parentNode.previousElementSibling.querySelector("h2").textContent = staffName;
                         edit_btn.parentNode.previousElementSibling.querySelector("p").textContent = staffRole;
