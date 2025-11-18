@@ -16,12 +16,22 @@
             <button id="add_staff_btn" class="bg-[white] p-[1rem] rounded-[8px] absolute bottom-[0] mb-[2rem]">Ajouter un staff</button>
         </div>
         <div id="entreprise" class="entreprise bg-[url(./assets/background.webp)] bg-no-repeat bg-cover bg-center w-[60rem] h-[90vh]">
-            <div id="Salle de conférence"></div>
-            <div id="Réception"></div>
-            <div id="Salle des serveurs"></div>
-            <div id="Salle de sécurité"></div>
-            <div id="Salle du personnel"></div>
-            <div id="Salle d’archives"></div>
+            <div class="left_rooms" style="grid-area: leftRooms;">
+                <div id="Salle_de_conférence" style="grid-area: conference;"></div>
+                <div id="Salle_de_Réception" style="grid-area: reception;"></div>
+            </div>
+
+            <div class="right_rooms" style="grid-area: rightRooms;">
+                <div class="server_security" style="grid-area: serveurSecurity;">
+                    <div id="Salle_des_serveurs"></div>
+                    <div id="Salle_de_sécurité"></div>
+                </div>
+
+                <div class="personal_archives" style="grid-area: personalArchives;">
+                    <div id="Salle_du_personnel"></div>
+                    <div id="Salle_d’archives"></div>
+            </div>
+            </div>
         </div>
     </main>
 </body>

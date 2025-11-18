@@ -1,10 +1,50 @@
- #entreprise{
+#entreprise {
     display: grid;
-    grid-template-areas: 
-    ""; 
-    background-color: rgba(0, 0, 0, 0.3);
+    grid-template-columns: 1fr 1fr; 
+    grid-template-areas: "leftRooms rightRooms"; 
+    gap: 10px;
 }
 
-.add_staff, #edit_staff_div{
+.left_rooms {
+    display: grid;
+    margin-right: 23%;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 2fr;
+    grid-template-areas: "conference"
+    "reception";
+    
+    gap: 5px;
+    height: 100%;
+}
+
+.right_rooms {
+    margin-left: 9%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: 100%; 
+}
+.server_security,
+.personal_archives {
+    flex: 1;
+    display: flex;
+    gap: 5px;
+}
+
+.server_security{
+    margin-bottom: 35%;
+}
+
+#Salled_e_conférence, 
+#Salle_de_Réception,
+#Salle_des_serveurs, 
+#Salle_de_sécurité, 
+#Salle_du_personnel, 
+#Salle_d’archives {
+    width: 100%;
+    height: 100%; 
+    flex: 1; 
+}
+.add_staff, #edit_staff_div, #assign_staff{
     background-color: rgba(0, 0, 0, 0.3);
 }

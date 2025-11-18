@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
            e.preventDefault();
            main.insertAdjacentHTML('beforeend', `
                 <div id="add_staff" class="add_staff fixed top-[0] left-[0] w-[100%] h-[100vh]">
-                <div id="popup" class="popup w-[25rem] h-[100vh] bg-[white] rounded-[20px] fixed top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 py-[1rem] px-[0.6rem] flex flex-col gap-[10px] overflow-y-auto">
+                <div id="popup" class="popup w-[25rem] h-[95vh] bg-[white] rounded-[20px] fixed top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 py-[1rem] px-[0.6rem] flex flex-col gap-[10px] overflow-y-auto">
                     <div id="staff_name" class="staff_name flex flex-col bg-gray-100 py-[10px] px-[5px] rounded-[8px]">
                         <label for="staff_name">Staff Name:</label>
                         <input type="text" id="staff_name" placeholder="mohamed" class="bg-[white] ml-[8px] border border-gray-300 focus:outline-none focus:border-blue-500 rounded-[8px]">
@@ -309,7 +309,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
                 e.preventDefault();
                 main.insertAdjacentHTML("beforeend", `
                 <div id="edit_staff_div" class="edit_staff_div fixed top-[0] left-[0] w-[100%] h-[100vh]">
-                    <div id="popup" class="popup w-[25rem] h-[100vh] bg-[white] rounded-[20px] fixed top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 py-[1rem] px-[0.6rem] flex flex-col gap-[10px] overflow-y-auto">
+                    <div id="popup" class="popup w-[25rem] h-[95vh] bg-[white] rounded-[20px] fixed top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 py-[1rem] px-[0.6rem] flex flex-col gap-[10px] overflow-y-auto">
                         <div id="staff_name" class="staff_name flex flex-col bg-gray-100 py-[10px] px-[5px] rounded-[8px]">
                             <label for="staff_name">Staff Name:</label>
                             <input type="text" id="staff_name" placeholder="mohamed" class="bg-[white] ml-[8px] border border-gray-300 focus:outline-none focus:border-blue-500 rounded-[8px]">
@@ -532,7 +532,70 @@ document.addEventListener("DOMContentLoaded", ()=>{
         }
     }
     add_staff();
+    const divs = document.querySelectorAll("#entreprise div[id]");
+    divs.forEach(itm => {
+        itm.classList.add("flex");
+        itm.classList.add("justify-center");
+        itm.classList.add("items-center");
+        itm.insertAdjacentHTML("beforeend", `
+                <div id="${itm.getAttribute("id")}_content" class="bg-[rgba(255,255,255,0.5)] [&_h2]:hidden [&_button]:hidden hover:bg-[white] hover:[&_h2]:block hover:[&_button]:flex hover:transition-[0.3] transition-[0.3] w-[95%] h-[95%] rounded-[8px] flex flex-col gap-[5px] justify-center items-center">
+                    <h2 class="text-bold">${itm.getAttribute("id").replaceAll("_", " ")}</h2>
+                    <button id="${itm.getAttribute("id")}_add_btn" class="bg-[#007BFF] flex flex-col justify-center items-center w-[3rem] h-[3rem] rounded-[50%]"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg></button>
+                </div>
+            `)
+        document.getElementById(`${itm.getAttribute("id")}_add_btn`).addEventListener("click", (e)=>{
+            main.insertAdjacentHTML("beforeend", `
+                    <div id="assign_staff" class="add_staff fixed top-[0] left-[0] w-[100%] h-[100vh]">
+                        <div id="assign_staff_popup" class="popup w-[25rem] h-[95vh] bg-[white] rounded-[20px] fixed top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 py-[1rem] px-[0.6rem] flex flex-col items-center gap-[10px] overflow-y-auto relative">
+                            <div id="popup_btns" class="popup_btns w-[100%] flex justify-center gap-[7px] absolute bottom-[5px]">
+                                <button id="close_assign_staff" class="bg-red-400 text-[white] py-[0.2rem] px-[0.5rem] w-[90%] rounded-[8px]">Close</button>
+                            </div>
+                        </div>
+                        
+                    </div>
+                `);
+            document.getElementById("close_assign_staff").addEventListener("click", (e)=>{
+                e.preventDefault();
+                document.getElementById("assign_staff").remove();
+            })
+            const assignStaffPopup = document.getElementById("assign_staff_popup")
+            let userDataArr = Array.from(userData);
+            Object.entries(userData).forEach(([key, value]) => {
+                let staff_roole = userData[key]["staff_role"];
+                let staff_naaaame = userData[key]["staff_name"];
+                if(filterStaffsBeforeAssign(staff_roole, itm.getAttribute("id"))){
+                    assignStaffPopup.insertAdjacentHTML("afterbegin", `
+                            <div class="assign_staff_card w-[95%] bg-gray-200 h-[auto] bg-[white] px-[2px] rounded-[8px]">
+                                <div class="assign_staff_text">
+                                    <h2 class="text-black text-[25px] mb-[-5px]">${staff_naaaame}</h2>
+                                    <p class="text-gray-400">${staff_roole}</p>
+                                </div>
+                                <div class="assign_staff_btns flex flex-wrap gap-[5px] px-[2px] py-[7px]">
+                                    <button id="assign_btn_${key}" class="edit_btn bg-[#007BFF] text-[white] py-[0.2rem] flex-1 px-[auto] rounded-[8px]">Assing</button>
+                                </div>
+                            </div>
+                        `);
+                }
+            })
+        })
+    })
     
-    
+    function filterStaffsBeforeAssign(Staff_Role, Salle_Name){
+        if(Staff_Role == "Reception" && Salle_Name == "Salle_de_Réception"){
+            return true;
+        } else if(Staff_Role == "IT Guy" && Salle_Name == "Salle_des_serveurs"){
+            return true;
+        } else if(Staff_Role == "Security Guy" && Salle_Name == "Salle_de_sécurité"){
+            return true;
+        } else if(Staff_Role == "Manager"){
+            return true;
+        } else if(Staff_Role == "Cleaner" && Salle_Name != "Salle_d’archives"){
+            return true;
+        } else if (Staff_Role == "Others" && Salle_Name != "Salle_des_serveurs" && Salle_Name != "Salle_d’archives"){
+            return true;
+        } else {
+            return false;
+        }
+    };
     
 })
