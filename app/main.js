@@ -237,20 +237,28 @@ document.addEventListener("DOMContentLoaded", ()=>{
                             }
                         }
                     })
+                    userData[how_much_staff]["state"] = "without_work";
                     
                     document.getElementById("add_staff").remove();
                     document.getElementById("non_used_staffs").insertAdjacentHTML('beforeend', `
-                        <div class="non_used_card w-[90%] h-[auto] bg-[white] px-[2px] rounded-[8px]">
+                        <div id="staff_without_work_${how_much_staff}" class="non_used_card w-[90%] h-[auto] bg-[white] px-[2px] rounded-[8px]">
                             <div class="non_used_text">
                                 <h2 class="text-black text-[25px] mb-[-5px]">${staffName}</h2>
                                 <p class="text-gray-400">${staffRole}</p>
                             </div>
                             <div class="non_used_btns flex flex-wrap gap-[5px] px-[2px] py-[7px]">
                                 <button id="edit_btn_${how_much_edit_btn}" class="edit_btn bg-yellow-500 text-[white] py-[0.2rem] flex-1 px-[auto] rounded-[8px]">Edit</button>
-                                <button id="remove_btn" class="remove_btn bg-red-400 text-[white] py-[0.2rem] flex-1 px-[auto] rounded-[8px]">Remove</button>
+                                <button id="remove_btn_${how_much_staff}" class="remove_btn bg-red-400 text-[white] py-[0.2rem] flex-1 px-[auto] rounded-[8px]">Remove</button>
                             </div>
                         </div>
                     `);
+                    if(document.getElementById(`remove_btn_${how_much_edit_btn}`)){
+                        let rem_btn = document.getElementById(`remove_btn_${how_much_edit_btn}`);
+                        rem_btn.addEventListener("click", (e)=>{
+                            console.log(rem_btn.parentNode.parentNode.remove());
+                        }) 
+                    }
+                    
                     let btn_id = `edit_btn_${how_much_edit_btn}`;
                     how_much_edit_btn++;
                     editInfos(how_much_staff, staffName, btn_id);
@@ -540,6 +548,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
         itm.insertAdjacentHTML("beforeend", `
                 <div id="${itm.getAttribute("id")}_content" class="bg-[rgba(255,255,255,0.5)] [&_h2]:hidden [&_button]:hidden hover:bg-[white] hover:[&_h2]:block hover:[&_button]:flex hover:transition-[0.3] transition-[0.3] w-[95%] h-[95%] rounded-[8px] flex flex-col gap-[5px] justify-center items-center">
                     <h2 class="text-bold">${itm.getAttribute("id").replaceAll("_", " ")}</h2>
+                    <div id="${itm.getAttribute("id")}_staffs" class="bg-gray-300 rounded-[8px] w-[90%] h-[80px] overflow-y-auto flex flex-col gap-[5px] items-center my-[10px] "></div>
                     <button id="${itm.getAttribute("id")}_add_btn" class="bg-[#007BFF] flex flex-col justify-center items-center w-[3rem] h-[3rem] rounded-[50%]"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg></button>
                 </div>
             `)
@@ -563,9 +572,9 @@ document.addEventListener("DOMContentLoaded", ()=>{
             Object.entries(userData).forEach(([key, value]) => {
                 let staff_roole = userData[key]["staff_role"];
                 let staff_naaaame = userData[key]["staff_name"];
-                if(filterStaffsBeforeAssign(staff_roole, itm.getAttribute("id"))){
+                if(filterStaffsBeforeAssign(staff_roole, itm.getAttribute("id")) && userData[key]["state"] == "without_work"){
                     assignStaffPopup.insertAdjacentHTML("afterbegin", `
-                            <div class="assign_staff_card w-[95%] bg-gray-200 h-[auto] bg-[white] px-[2px] rounded-[8px]">
+                            <div id="assign_staff_${key}" class="assign_staff_card w-[95%] bg-gray-200 h-[auto] bg-[white] px-[2px] rounded-[8px]">
                                 <div class="assign_staff_text">
                                     <h2 class="text-black text-[25px] mb-[-5px]">${staff_naaaame}</h2>
                                     <p class="text-gray-400">${staff_roole}</p>
@@ -575,6 +584,42 @@ document.addEventListener("DOMContentLoaded", ()=>{
                                 </div>
                             </div>
                         `);
+                }
+                if(document.getElementById(`assign_btn_${key}`)){
+                    document.getElementById(`assign_btn_${key}`).addEventListener("click", (e)=>{
+                        e.preventDefault();
+                        userData[key]["state"] = "with_work";
+                        let container = document.getElementById(`${itm.getAttribute("id")}_staffs`);
+                        container.insertAdjacentHTML("beforeend", `
+                                <div id="staff_${key}" class="used_card w-[90%] h-[auto] bg-[white] px-[2px] rounded-[8px]">
+                                    <div class="used_text">
+                                        <p class="text-black text-[25px] mb-[-5px]">${staff_naaaame}</p>
+                                        <p class="text-gray-400">${staff_roole}</p>
+                                    </div>
+                                        <button id="remove_btn_${key}" class="remove_btn bg-red-400 text-[white] py-[0.2rem] flex-1 px-[auto] rounded-[8px]">Remove</button>
+                                    </div>
+                                </div>
+                            `);
+                        document.getElementById(`assign_staff_${key}`).remove();
+                        document.getElementById(`staff_without_work_${key}`).remove();
+                        document.getElementById(`remove_btn_${key}`).addEventListener("click", (e)=>{
+                            e.preventDefault();
+                            document.getElementById(`staff_${key}`).remove();
+                            userData[key]["state"] = "without_work";
+                            document.getElementById("non_used_staffs").insertAdjacentHTML('beforeend', `
+                                <div id="staff_without_work_${key}" class="non_used_card w-[90%] h-[auto] bg-[white] px-[2px] rounded-[8px]">
+                                    <div class="non_used_text">
+                                        <h2 class="text-black text-[25px] mb-[-5px]">${staff_naaaame}</h2>
+                                        <p class="text-gray-400">${staff_roole}</p>
+                                    </div>
+                                    <div class="non_used_btns flex flex-wrap gap-[5px] px-[2px] py-[7px]">
+                                        <button id="edit_btn_${key}" class="edit_btn bg-yellow-500 text-[white] py-[0.2rem] flex-1 px-[auto] rounded-[8px]">Edit</button>
+                                        <button id="remove_btn" class="remove_btn bg-red-400 text-[white] py-[0.2rem] flex-1 px-[auto] rounded-[8px]">Remove</button>
+                                    </div>
+                                </div>
+                            `);
+                        })
+                    });
                 }
             })
         })
