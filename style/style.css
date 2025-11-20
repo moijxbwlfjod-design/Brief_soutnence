@@ -1,50 +1,154 @@
-#entreprise {
-    display: grid;
-    grid-template-columns: 1fr 1fr; 
-    grid-template-areas: "leftRooms rightRooms"; 
-    gap: 10px;
-}
-
-.left_rooms {
-    display: grid;
-    margin-right: 23%;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 2fr;
-    grid-template-areas: "conference"
-    "reception";
-    
-    gap: 5px;
-    height: 100%;
-}
-
-.right_rooms {
-    margin-left: 9%;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    height: 100%; 
-}
-.server_security,
-.personal_archives {
-    flex: 1;
-    display: flex;
-    gap: 5px;
-}
-
-.server_security{
-    margin-bottom: 35%;
-}
-
-#Salled_e_conférence, 
-#Salle_de_Réception,
-#Salle_des_serveurs, 
-#Salle_de_sécurité, 
-#Salle_du_personnel, 
-#Salle_d’archives {
-    width: 100%;
-    height: 100%; 
-    flex: 1; 
-}
-.add_staff, #edit_staff_div, #assign_staff{
+main{
+        background-image: url("../assets/background.webp");
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+.add_staff, #edit_staff_div, #assign_staff, #show_staff{
     background-color: rgba(0, 0, 0, 0.3);
+}
+
+@media screen and (min-width : 1024px){
+    body{
+        background-image: none;
+    }
+    #entreprise {
+        display: grid;
+        grid-template-columns: 1fr 1fr; 
+        grid-template-areas: "leftRooms rightRooms"; 
+        gap: 10px;
+        background-image: url(../assets/background.webp);
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: cover;
+        height: 100vh;
+        width: 100%;
+    }
+
+    .left_rooms {
+        display: grid;
+        margin-right: 23%;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 2fr;
+        grid-template-areas: "conference"
+        "reception";
+        gap: 5px;
+        height: 100%;
+    }
+
+    .right_rooms {
+        margin-left: 9%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        height: 100%; 
+    }
+    .server_security,
+    .personal_archives {
+        flex: 1;
+        display: flex;
+        gap: 5px;
+        flex-wrap: wrap;
+    }
+
+    .server_security{
+        margin-bottom: 35%;
+    }
+
+    #Salled_e_conférence, 
+    #Salle_de_Réception,
+    #Salle_des_serveurs, 
+    #Salle_de_sécurité, 
+    #Salle_du_personnel, 
+    #Salle_d’archives {
+        width: 100%;
+        height: 100%; 
+        flex: 1; 
+    }
+}
+
+@media screen and (min-width : 801px) and (max-width : 1023px){
+    #entreprise {
+        padding-top: 9rem;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        height: 100vh;
+        overflow-y: scroll;
+        background-image: none;
+        background-color: #007bff34;
+        backdrop-filter: blur(5px);
+    }
+    .left_rooms{
+        display: flex;
+        width: 100vw;
+    }
+    #Salle_de_conférence, #Salle_de_Réception{
+        width: 50%;
+    }
+    .right_rooms{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .server_security, .personal_archives{
+        display: flex;
+    }
+    #Salle_de_sécurité, #Salle_des_serveurs, #Salle_du_personnel, #Salle_d’archives{
+        width: 50%;
+    }
+
+}
+
+@media screen and (min-Width : 602px) and (max-width : 800px){
+
+    #entreprise {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        height: 100vh;
+        overflow-y: scroll;
+        background-image: none;
+        background-color: #007bff34;
+        backdrop-filter: blur(5px);
+    }
+    .left_rooms{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .right_rooms, .server_security, .personal_archives{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+@media screen and (max-width : 601px) {
+    #entreprise{
+        background-image: none;
+        background-color: #007bff34;
+        backdrop-filter: blur(5px);
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        overflow-y: scroll;
+    }
+    .left_rooms {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .right_rooms {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .personal_archives, .server_security{
+        display: flex;
+        flex-direction: column;
+        gap: 10px !important;
+    }
+    
 }

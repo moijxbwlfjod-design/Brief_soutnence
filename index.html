@@ -5,17 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="./app/main.js" defer></script>
-    <link href="./style/style.css" rel="stylesheet">
+    <link href="./style/style.css" rel="stylesheet"> 
     <title>Document</title>
 </head>
 <body>
-    <main id="main" class="flex gap-[4rem] items-center">
-        <div id="left_bar" class="left_bar bg-blue-500 w-[15rem] h-[100vh] relative flex flex-col items-center">
-            <div id="non_used_staffs" class="bg-gray-200 overflow-y-auto py-[5px] rounded-[8px] w-[90%] h-[30rem] mt-[20px] flex flex-col gap-[5px] items-center">
+    <main id="main" class="flex flex-col lg:flex-row w-full min-h-screen lg:h-screen overflow-auto">
+        
+        <div id="left_bar" class="bg-blue-600 p-4 flex transition-all duration-300 ease-in-out
+            w-100% h-auto flex-row items-center justify-between gap-4
+            lg:w-[18rem] lg:h-full lg:flex-col lg:justify-start lg:pt-10">
+
+            <div id="non_used_staffs" class="bg-white/20 backdrop-blur-sm rounded-lg shadow-inner overflow-auto
+                w-[30%] h-[3.5rem] flex flex-col items-center px-[2px] py-2 pt-[10px] gap-2
+                lg:w-[90%] lg:h-[60%]">
             </div>
-            <button id="add_staff_btn" class="bg-[white] p-[1rem] rounded-[8px] absolute bottom-[0] mb-[2rem]">Ajouter un staff</button>
+            
+            <button id="add_staff_btn" class="bg-white text-blue-600 font-bold py-2 px-4 rounded shadow hover:bg-gray-100 transition
+                text-sm whitespace-nowrap
+                lg:w-[90%] lg:mb-8 lg:mt-auto lg:text-base">
+                + Ajouter Staff
+            </button>
         </div>
-        <div id="entreprise" class="entreprise bg-[url(./assets/background.webp)] bg-no-repeat bg-cover bg-center w-[60rem] h-[90vh]">
+
+        <div id="entreprise" class="entreprise 
+            w-[100%] h-[100%]
+            lg:w-[60rem] lg:h-[90vh] flex wrap">
+            
             <div class="left_rooms" style="grid-area: leftRooms;">
                 <div id="Salle_de_conférence" style="grid-area: conference;"></div>
                 <div id="Salle_de_Réception" style="grid-area: reception;"></div>
@@ -30,7 +45,7 @@
                 <div class="personal_archives" style="grid-area: personalArchives;">
                     <div id="Salle_du_personnel"></div>
                     <div id="Salle_d’archives"></div>
-            </div>
+                </div>
             </div>
         </div>
     </main>
