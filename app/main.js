@@ -291,7 +291,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
                                     <div id="staff_photo" class="staff_photo flex flex-col bg-gray-100 py-[10px] px-[5px] rounded-[8px]">
                                         <div class="staff_photo_url">
                                             <label>Photo:</label>
-                                            <img id="profileImg" src="./assets/no-image.svg" class="bg-gray-500 rounded-[50%] object-cover w-[7rem] h-[7rem]" alt="staff image" title="staff image">
+                                            <img id="profileImg" special="show" src="./assets/no-image.svg" class="bg-gray-500 rounded-[50%] object-cover w-[7rem] h-[7rem]" alt="staff image" title="staff image">
                                             </div>
                                     </div>
                                     <div id="staff_email" class="staff_email flex flex-col bg-gray-100 py-[10px] px-[5px] rounded-[8px]">
@@ -339,6 +339,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
                                 
                     </div>
                             `);
+                    document.querySelector("img[special='show']").src = userData[how_much_staff - 1]["staff_picture"];
                     document.querySelectorAll("label[id]").forEach(iteem => {
                         if(!iteem.getAttribute("id").includes("experience")){
                             iteem.textContent = userData[how_much_staff - 1][iteem.getAttribute("id")];
@@ -754,7 +755,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
                                             <div id="staff_photo" class="staff_photo flex flex-col bg-gray-100 py-[10px] px-[5px] rounded-[8px]">
                                                 <div class="staff_photo_url">
                                                     <label>Photo:</label>
-                                                    <img id="profileImg" src="./assets/no-image.svg" class="bg-gray-500 rounded-[50%] object-cover w-[7rem] h-[7rem]" alt="staff image" title="staff image">
+                                                    <img id="profileImg" special="show" src="./assets/no-image.svg" class="bg-gray-500 rounded-[50%] object-cover w-[7rem] h-[7rem]" alt="staff image" title="staff image">
                                                     </div>
                                             </div>
                                             <div id="staff_email" class="staff_email flex flex-col bg-gray-100 py-[10px] px-[5px] rounded-[8px]">
@@ -802,6 +803,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
                                         
                             </div>
                                     `);
+                            document.querySelector("img[special='show']").src = userData[key]["staff_picture"];
                             document.querySelectorAll("label[id]").forEach(iteem => {
                                 if(!iteem.getAttribute("id").includes("experience")){
                                     iteem.textContent = userData[key][iteem.getAttribute("id")];
@@ -886,7 +888,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
                                             <div id="staff_photo" class="staff_photo flex flex-col bg-gray-100 py-[10px] px-[5px] rounded-[8px]">
                                                 <div class="staff_photo_url">
                                                     <label>Photo:</label>
-                                                    <img id="profileImg" src="./assets/no-image.svg" class="bg-gray-500 rounded-[50%] object-cover w-[7rem] h-[7rem]" alt="staff image" title="staff image">
+                                                    <img id="profileImg" special="show" src="./assets/no-image.svg" class="bg-gray-500 rounded-[50%] object-cover w-[7rem] h-[7rem]" alt="staff image" title="staff image">
                                                     </div>
                                             </div>
                                             <div id="staff_email" class="staff_email flex flex-col bg-gray-100 py-[10px] px-[5px] rounded-[8px]">
@@ -934,6 +936,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
                                         
                             </div>
                                     `);
+                            document.querySelector("img[special='show']").src = userData[key]["staff_picture"];
                             document.querySelectorAll("label[id]").forEach(iteem => {
                                 if(!iteem.getAttribute("id").includes("experience")){
                                     iteem.textContent = userData[key][iteem.getAttribute("id")];
