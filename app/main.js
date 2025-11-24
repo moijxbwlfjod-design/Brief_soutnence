@@ -1,6 +1,8 @@
 document.addEventListener("DOMContentLoaded", ()=>{
     const add_staff_btn = document.getElementById("add_staff_btn");
     const main = document.getElementById("main");
+    let base64Img = "";
+    let imgURL = "";
     const pattern = {
         staff_name : {
             regex : /^[a-zA-Z ]{2,30}$/,
@@ -51,7 +53,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
                     <div id="staff_photo" class="staff_photo flex flex-col bg-gray-100 py-[10px] px-[5px] rounded-[8px]">
                         <div class="staff_photo_url">
                             <label for="staff_photo">Photo URL:</label>
-                            <input type="text" id="staff_photo_input" placeholder="Click 'Entrer' to get the image"  class="bg-[white] ml-[8px] border border-gray-300 focus:outline-none focus:border-blue-500 rounded-[8px]">
+                            <input type="text" id="urlImg" placeholder="Click 'Entrer' to get the image"  class="bg-[white] ml-[8px] border border-gray-300 focus:outline-none focus:border-blue-500 rounded-[8px]">
                         </div>
                         <div class="staff_photo_upload flex flex-col items-center gap-[10px] my-[10px]">
                             <div class="staff_photo_upload_img">
@@ -121,7 +123,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
            const add_experience_btn = document.getElementById("add_staff_experience")
            const remove_experience_btn = document.getElementById("remove_staff_experience");
            const add_img = document.getElementById("upload_img_btn");
-           const img_url = document.getElementById("staff_photo_input");
+           const img_url = document.getElementById("urlImg");
            const profileImg = document.getElementById("profileImg");
            const hiddenInput = document.getElementById("hidden");
            remove_experience_btn.style.display = "none";
@@ -140,6 +142,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
                 const reader = new FileReader();
                 reader.onload = (event)=>{
                     profileImg.src = event.target.result;
+                    base64Img = event.target.result;
                 };
                 reader.readAsDataURL(file);
             })
@@ -155,8 +158,9 @@ document.addEventListener("DOMContentLoaded", ()=>{
                     add_img.classList.add("disabled:text-[#6C757D]");
                     add_img.classList.add("disabled:cursor-not-allowed");
                     e.target.addEventListener("keydown", (event)=>{
-                        if(event.target.key == "Enter"){
+                        if(event.key == "Enter"){
                             profileImg.src = img_url.value;
+                            imgURL = img_url.value;
                         }
                     })
                 } else {
@@ -234,7 +238,13 @@ document.addEventListener("DOMContentLoaded", ()=>{
                     userData[how_much_staff] = {};
                     filtred_inputs.forEach(input => {
                         if(!input.getAttribute("id").includes("experience")){
-                            userData[how_much_staff][input.getAttribute("id")] = input.value;
+                            if(input.getAttribute("id").includes("urlImg")){
+                                userData[how_much_staff]["staff_picture"] = profileImg.src;
+                            } else if(input.getAttribute("id").includes("hidden")){
+                                userData[how_much_staff]["staff_picture"] = base64Img;
+                            } else {
+                                userData[how_much_staff][input.getAttribute("id")] = input.value;
+                            }
                         } else {
                             if (input.getAttribute("id") in userData[how_much_staff]){
                                 userData[how_much_staff][input.getAttribute("id")].push(input.value);
@@ -245,13 +255,18 @@ document.addEventListener("DOMContentLoaded", ()=>{
                         }
                     })
                     userData[how_much_staff]["state"] = "without_work";
-                    
+                    console.log(userData)
                     document.getElementById("add_staff").remove();
                     document.getElementById("non_used_staffs").insertAdjacentHTML('beforeend', `
-                        <div id="staff_without_work_${how_much_staff}" class="non_used_card w-[90%] h-[auto] bg-[white] px-[2px] rounded-[8px]">
-                            <div class="non_used_text">
-                                <h2 class="text-black text-[25px] mb-[-5px]">${staffName}</h2>
-                                <p class="text-gray-400">${staffRole}</p>
+                        <div id="staff_without_work_${how_much_staff}" class="non_used_card w-[100%] overflow-auto h-[auto] bg-[white] px-[2px] rounded-[8px]">
+                            <div class="non_used_text flex flex-col gap-[3px]">
+                                <div class="flex gap-[2%] items-center">
+                                    <img id="profileImg" src="${userData[how_much_staff]["staff_picture"]}" class="bg-gray-500 rounded-[50%] object-cover w-[3rem] h-[3rem]" alt="staff image" title="staff image">
+                                    <h2 class="text-black text-[25px] mb-[-5px]">${staffName}</h2>
+                                </div>
+                                <div>
+                                    <p class="text-gray-400">${staffRole}</p>
+                                </div>
                             </div>
                             <div class="non_used_btns flex flex-wrap gap-[5px] px-[2px] py-[7px]">
                                 <button id="edit_btn_${how_much_edit_btn}" class="edit_btn bg-yellow-500 text-[white] py-[0.2rem] flex-1 px-[auto] rounded-[8px]">Edit</button>
@@ -374,7 +389,8 @@ document.addEventListener("DOMContentLoaded", ()=>{
                             rem_btn.parentNode.parentNode.remove();
                             delete userData[how_much_staff];
                         }) 
-                    }
+                    };
+                    console.log(userData);
                     
                     let btn_id = `edit_btn_${how_much_edit_btn}`;
                     how_much_edit_btn++;
@@ -410,7 +426,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
                     num++;
                 }
             } else{
-                if(input.getAttribute("id") != "hidden" && input.getAttribute("id") != "staff_photo_input"){
+                if(input.getAttribute("id") != "hidden" && input.getAttribute("id") != "urlImg"){
                     let spantwo = input.nextElementSibling;
                     if(input.value.length == 0){
                         input.style.border = "1px solid red";
@@ -457,7 +473,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
                         <div id="staff_photo" class="staff_photo flex flex-col bg-gray-100 py-[10px] px-[5px] rounded-[8px]">
                             <div class="staff_photo_url">
                                 <label for="staff_photo">Photo URL:</label>
-                                <input type="text" id="staff_photo_input" placeholder="https://......"  class="bg-[white] ml-[8px] border border-gray-300 focus:outline-none focus:border-blue-500 rounded-[8px]">
+                                <input type="text" id="urlImg" placeholder="https://......"  class="bg-[white] ml-[8px] border border-gray-300 focus:outline-none focus:border-blue-500 rounded-[8px]">
                             </div>
                             <div class="staff_photo_upload flex flex-col items-center gap-[10px] my-[10px]">
                                 <div class="staff_photo_upload_img">
@@ -521,17 +537,19 @@ document.addEventListener("DOMContentLoaded", ()=>{
                 const save_staff_btn = document.getElementById("save_staff");
                 const close_staff_popup = document.getElementById("close_staff_popup");
                 const add_img = document.getElementById("upload_img_btn");
-                const img_url = document.getElementById("staff_photo_input");
+                const img_url = document.getElementById("urlImg");
                 const profileImg = document.getElementById("profileImg");
                 const hiddenInput = document.getElementById("hidden");
                 const Inputs = document.querySelectorAll("#edit_staff_div input, #edit_staff_div select");
                 Object.entries(userData[id]).forEach(([key,value]) => {
-                    if(!key.includes("experience")){
+                    if(!key.includes("experience") && !key.includes("picture")){
                         Inputs.forEach(item => {
                             if(item.getAttribute("id") == key && value.length != 0){
                                 item.value = value;
                             }
                         })
+                    } else if(key.includes("picture")){
+                        profileImg.src = value;
                     } else if (key.includes("experience_company")) {
                             const added_experiece_container = document.getElementById("staff_experience_add");
                             for (let i = 1; i < value.length; i++){
@@ -575,10 +593,10 @@ document.addEventListener("DOMContentLoaded", ()=>{
                     }
                 });
                 add_img.addEventListener("click", (e)=>{
-                    e.preventDefault()
-                    img_url.disabled = true;
-                    img_url.classList.add("disabled:cursor-not-allowed");
-                    hiddenInput.click();
+                e.preventDefault()
+                img_url.disabled = true;
+                img_url.classList.add("disabled:cursor-not-allowed");
+                hiddenInput.click();
                 });
 
 
@@ -588,6 +606,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
                     const reader = new FileReader();
                     reader.onload = (event)=>{
                         profileImg.src = event.target.result;
+                        base64Img = event.target.result;
                     };
                     reader.readAsDataURL(file);
                 })
@@ -602,6 +621,11 @@ document.addEventListener("DOMContentLoaded", ()=>{
                         add_img.classList.add("bg-[#CED4DA]");
                         add_img.classList.add("disabled:text-[#6C757D]");
                         add_img.classList.add("disabled:cursor-not-allowed");
+                        e.target.addEventListener("keydown", (event)=>{
+                            if(event.key == "Enter"){
+                                profileImg.src = img_url.value;
+                            }
+                        })
                     } else {
                         add_img.disabled = false;
                         hiddenInput.disabled = false;
@@ -618,7 +642,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
                     if(result == 0 && filterDateInputs(start_date_inputs, end_date_inputs)){
                         let staffName = document.querySelector("#staff_name input").value;
                         let staffRole = document.querySelector("#staff_role select").value;
-                        let final_input = Array.from(document.querySelectorAll("#popup input, select"));
+                        let final_input = Array.from(document.querySelectorAll("#popup input, select, img"));
                         let company = [];
                         let role = [];
                         let start = [];
@@ -630,8 +654,12 @@ document.addEventListener("DOMContentLoaded", ()=>{
                             };
                         };
                         filtred_inputs.forEach(input => {
-                            if(!input.getAttribute("id").includes("experience")){
+                            if(!input.getAttribute("id").includes("experience") && !input.getAttribute("id").includes("urlImg") && !input.getAttribute("id").includes("hidden")){
                                 userData[id][input.getAttribute("id")] = input.value;
+                            } else if(input.getAttribute("id").includes("hidden")){
+                                userData[id]["staff_picture"] = base64Img;
+                            } else if(input.getAttribute("id").includes("urlImg")){
+                                userData[id]["staff_picture"] = profileImg.src;
                             } else {
                                 if(input.getAttribute("id").includes("company")){
                                     company.push(input.value);
@@ -826,9 +854,15 @@ document.addEventListener("DOMContentLoaded", ()=>{
                             let container = document.getElementById(`${itm.getAttribute("id")}_staffs`);
                             container.insertAdjacentHTML("beforeend", `
                                     <div id="staff_${key}" class="used_card w-[90%] h-[auto] bg-[white] px-[2px] rounded-[8px]">
-                                        <div class="used_text">
-                                            <p class="text-black text-[25px] mb-[-5px]">${staff_naaaame}</p>
-                                            <p class="text-gray-400">${staff_roole}</p>
+                                        <div class="used_text flex flex-col gap-[3px]">
+                                            <div class="flex gap-[2%] items-center">
+                                                <img id="profileImg" src="${userData[key]["staff_picture"]}" class="bg-gray-500 rounded-[50%] object-cover w-[3rem] h-[3rem]" alt="staff image" title="staff image">
+                                                <p class="text-black text-[25px] mb-[-5px]">${staff_naaaame}</p>
+                                            </div>
+                                            <div>
+                                                <p class="text-gray-400">${staff_roole}</p>
+                                            </div>
+                                            
                                         </div>
                                             <button id="remove_btn_${key}" class="remove_btn bg-red-400 text-[white] py-[0.2rem] flex-1 px-[auto] rounded-[8px]">Remove</button>
                                         </div>
@@ -961,9 +995,14 @@ document.addEventListener("DOMContentLoaded", ()=>{
                                 userData[key]["state"] = "without_work";
                                 document.getElementById("non_used_staffs").insertAdjacentHTML('beforeend', `
                                     <div id="staff_without_work_${key}" class="non_used_card w-[90%] h-[auto] bg-[white] px-[2px] rounded-[8px]">
-                                        <div class="non_used_text">
-                                            <h2 class="text-black text-[25px] mb-[-5px]">${staff_naaaame}</h2>
-                                            <p class="text-gray-400">${staff_roole}</p>
+                                        <div class="non_used_text flex flex-col gap-[3px]">
+                                            <div class="flex gap-[2%] items-center">
+                                                <img id="profileImg" src="${userData[key]["staff_picture"]}" class="bg-gray-500 rounded-[50%] object-cover w-[3rem] h-[3rem]" alt="staff image" title="staff image">
+                                                <h2 class="text-black text-[25px] mb-[-5px]">${staff_naaaame}</h2>
+                                            </div>
+                                            <div>
+                                                <p class="text-gray-400">${staff_roole}</p>
+                                            </div>
                                         </div>
                                         <div class="non_used_btns flex flex-wrap gap-[5px] px-[2px] py-[7px]">
                                             <button id="edit_btn_${key}" class="edit_btn bg-yellow-500 text-[white] py-[0.2rem] flex-1 px-[auto] rounded-[8px]">Edit</button>
@@ -1139,12 +1178,16 @@ document.addEventListener("DOMContentLoaded", ()=>{
             if (StartDate >= EndsDate){
                 item.nextElementSibling.textContent = "Please give a logic date";
                 item.nextElementSibling.style.color = "red";
+                item.style.border = "1px solid red";
                 endsIn[index].nextElementSibling.textContent = "Please give a logic date";
                 endsIn[index].nextElementSibling.style.color = "red";
+                endsIn[index].style.border = "1px solid red";
                 how_much_valide++;
             } else {
                 item.nextElementSibling.textContent = "";
+                item.style.border = "";
                 endsIn[index].nextElementSibling.textContent = "";
+                endsIn[index].style.border = "";
             }
         })
         if(how_much_valide == 0){
